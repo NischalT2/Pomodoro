@@ -1,10 +1,9 @@
 import Header from '../components/header';
 import Settings from '../components/settings';
 import Body from '../components/body';
-import Task from '../components/task';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const API = 'htpps://localhost:5000';
+const API = 'http://localhost:5000';
 
 function Home(){
     const [isSettingsVisible, setSettingsVisibility] = useState(false);
@@ -12,6 +11,16 @@ function Home(){
     const [shortTime, setShortTime] = useState(5);
     const [longTime, setLongTime] = useState(15);
     const [longInterval, setLongInterval] = useState(2);
+
+    useEffect(() => {
+        const settings = JSON.parse(localStorage.getItem('settings'));
+        if (settings) {
+            setPomTime(settings.pomTime);
+            setShortTime(settings.shortTime);
+            setLongTime(settings.longTime);
+            setLongInterval(settings.longInterval);
+        }
+    }, [])
 
     return (
         <>
@@ -34,8 +43,6 @@ function Home(){
             shortTime={shortTime} 
             longTime={longTime}
             longInterval = {longInterval} />
-
-            <Task />
         </>
     )
 }
